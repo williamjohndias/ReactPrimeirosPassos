@@ -24,19 +24,10 @@ const mario = {
 
 const App = () => {
   const dados = luana;
-  const styleAtivaInativa = {
-    color: dados.ativa === false ? 'red' : 'green',
-  };
 
-  const converterPreco = (preco) => {
-    return Number(preco.replace('R$', '').replace(/\s/g, ''));
-  };
-  const precos = dados.compras.map((compra) => converterPreco(compra.preco));
-  const total = precos.reduce((acc, preco) => acc + preco, 0);
-
-  const muitoGasto = {
-    dadosTotal: total <= 10000 ? '' : 'Você está gastando muito',
-  };
+  const total = dados.compras
+    .map((item) => Number(item.preco.replace('R$', '')))
+    .reduce((a, b) => a + b);
 
   return (
     <>
@@ -46,14 +37,14 @@ const App = () => {
         <div>
           <p>
             Situação:
-            <b style={styleAtivaInativa}>
+            <span style={{ color: dados.ativa ? 'green' : 'red' }}>
               {' '}
               {dados.ativa ? 'ativo' : 'inativo'}
-            </b>
+            </span>
           </p>
         </div>
-        <p>Total gasto: {total}</p>
-        <p>{muitoGasto.dadosTotal}</p>
+        <p>Total: R$ {total}</p>
+        <p>{total > 10000 && 'Você está gastando muito'}</p>
       </div>
     </>
   );
